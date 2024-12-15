@@ -9,13 +9,13 @@
 
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 
-            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://dbservice:3306/maravilla?serverTimezone=America/Buenos_Aires" />
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://dpg-ctfde33tq21c73btnrm0-a:5432/maravilla"/>
             <!-- USAR ENVIRONMENT VARS PARA CREDENCIALES DB -->
             <property name="hibernate.connection.username" value="root" />
-            <property name="hibernate.connection.password" value="123456" />
+            <property name="hibernate.connection.password" value="JIEpqW71oiPAMf4JjcAmDahoUcI0SUpv" />
 
             <property name="hibernate.show_sql" value="true" />
             <!-- Enable the logging of all the generated SQL statements to the console -->
@@ -24,7 +24,7 @@
             <!-- Format the generated SQL statements to make it more readable -->
 
             <property name="user_sql_comments" value="true" />
-            
+
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <!--
               - validate: Validate the schema, making sure it matches the mappings. No changes are made to the database.
