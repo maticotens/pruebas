@@ -55,6 +55,10 @@ public class Router {
         // ------------------------------------   RUTAS   ------------------------------------------------
         app.routes(() -> {
 
+            path("/health-check", () -> {
+                get(ctx -> ctx.status(200));
+            });
+
             path("/", () -> {
                 get(ctx -> ctx.redirect("/inicio"));
             });
