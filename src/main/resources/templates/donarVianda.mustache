@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donar Vianda</title>
+    <!-- Enlace a CSS de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome para el ícono de lupa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 50px;
+            background-color: white;
+        }
+
+        .heladera-list {
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            max-height: 200px;
+        }
+
+        .heladera-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .heladera-item h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .heladera-item p {
+            font-size: 16px;
+            line-height: 0.9;
+        }
+
+
+        .btn-subscribe {
+            background-color: #1e5552;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin-left: 380px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+
+        .form-donation {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input {
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .btn-add,
+        .btn-donate {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-add {
+            background-color: #ffffff;
+            border: none;
+        }
+
+        .btn-donate {
+            background-color: #1e5552;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+        .btn-donate:hover, .btn-subscribe:hover
+        {
+            background-color: #274597;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                max-width: 100%;
+            }
+        }
+
+        .heladera-placeholder::placeholder {
+            color: black !important;
+        }
+        #bloqueVianda2
+        {
+            display: none;
+        }
+     #eliminarVianda
+     {
+         display: none;
+     }
+     .error-message {
+         color: red;
+         font-size: 14px;
+         margin-top: 10px;
+     }
+
+
+        .btn-common {
+            width: calc(100% - 20px);
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .donar-btn {
+            background-color: #04308d;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .donar-btn:hover {
+            background-color: #152855;
+        }
+
+        .agregar-btn {
+            background-color: #B7C9C7;
+            border-color: #B7C9C7;
+            color: #143c3a;
+        }
+
+        .agregar-btn:hover {
+            background-color: #A0B0AF;
+        }
+        .eliminar-btn {
+            background-color: #B7C9C7;
+            border-color: #B7C9C7;
+            color: #143c3a;
+        }
+
+        .eliminar-btn:hover {
+            background-color: #A0B0AF;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+{{> header}}
+
+<main class="container mb-5 mt-3">
+    <h1  style="font-family: 'Poppins', sans serif; font-weight:700; color: #1e5552">Donar vianda</h1>
+    <p class="mb-5" style="font-family: 'Poppins', sans serif;">Complete el formulario para donar viandas a una heladera solidaria.</p>
+    <div class="row">
+        <!-- Sección izquierda (Lista de heladeras) -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <h4 style="font-family: 'Poppins', sans serif; font-weight:700;">Heladera</h4>
+                <div class="input-group">
+                    <select onclick="setearHeladera(this)" class="form-control form-select">
+                        <option value="unselected" selected>Seleccionar heladera</option>
+                        {{#heladeras}}
+                            <option value="{{id}}">{{nombre}}</option>
+                        {{/heladeras}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="heladera-list">
+                {{#heladeras}}
+                    <div class="heladera-item" data-id="{{id}}" style="display: none">
+                        <h4>{{nombre}}</h4>
+                        <p>{{direccion}}</p>
+                        <p><strong>Estado:</strong> Activa</p>
+                        <p><strong>Disponibilidad:</strong> {{disponibilidad}} viandas</p>
+                    </div>
+                {{/heladeras}}
+            </div>
+        </div>
+
+        <!-- Sección derecha (Formulario de donación) -->
+        <div class="col-md-6">
+            <form action="/donarVianda" method= "post" class="form-donation" onsubmit="return validateForm()">
+                <input type="hidden" name="heladeraId" id="heladeraId" required/>
+                <h4 style="font-family: 'Poppins', sans serif; font-weight:700;">Vianda a donar</h4>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="vianda1">Contenido</label>
+                        <input type="text" name="vianda1" class="form-control" id="vianda1" placeholder="Ej.: Arroz con pollo" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fechaCaducidad1">Fecha de caducidad</label>
+                        <input type="date" name="fechaCaducidad1" class="form-control" id="fechaCaducidad1" value="" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="pesoVianda1">Peso de la vianda (gr)</label>
+                        <input type="text" name="pesoVianda1" class="form-control" id="pesoVianda1" placeholder="Ej.: 500 gr">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="caloriasVianda1">Calorías de la vianda (cal)</label>
+                        <input type="text" name="caloriasVianda1" class="form-control" id="caloriasVianda1" placeholder="Ej.: 1200 cal">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fechaDonacion1">Fecha de donación</label>
+                        <input type="date" name="fechaDonacion1" class="form-control" id="fechaDonacion1">
+                    </div>
+                </div>
+
+                <hr>
+                <div id="bloqueVianda2">
+                    <h4>Vianda a donar (2)</h4>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="vianda2">Vianda a donar</label>
+                            <input type="text" name="vianda2" class="form-control" id="vianda2" placeholder="Tarta de verduras">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fechaCaducidad2">Fecha de caducidad</label>
+                            <input type="date" name="fechaCaducidad2" class="form-control" id="fechaCaducidad2" value="2024-10-06">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="pesoVianda2">Peso de la vianda</label>
+                            <input type="text" name="pesoVianda2" class="form-control" id="pesoVianda2" placeholder="500 gr">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="caloriasVianda2">Calorías de la vianda</label>
+                            <input type="text" name="caloriasVianda2" class="form-control" id="caloriasVianda2" placeholder="1200 gr">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="fechaDonacion2">Fecha de donación</label>
+                            <input type="date" name="fechaDonacion2" class="form-control" id="fechaDonacion2" value="2024-10-06">
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="agregar-btn btn-common" onclick="agregarViandaFunction();"  type="button" id="agregarVianda">+ Añadir otra vianda</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="eliminar-btn btn-common" onclick="eliminarViandaFunction(); resetearVianda2();"  type="button" id="eliminarVianda">Eliminar vianda</button>
+
+                        <button onclick="" id="eliminarVianda" type="button" class="btn-add">- Eliminar Vianda</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="donar-btn btn-common" type="submit">Donar viandas</button>
+                    </div>
+                {{#errorVianda}}
+                    <div class="error-message">{{errorVianda}}</div>
+                {{/errorVianda}}
+            </form>
+        </div>
+    </div>
+</main>
+
+{{> footer}}
+
+<!-- Enlace a JavaScript de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('fechaDonacion1').value = today;
+    });
+
+    function validateForm(){
+        const heladeraId = document.getElementById('heladeraId').value;
+
+        if (!heladeraId) {
+            alert('Es necesario elegir una heladera');
+            return false;
+        }
+
+        return true;
+    }
+    function setearHeladera(event){
+        let idHeladeraSeleccionada = event.value;
+        if(idHeladeraSeleccionada === "unselected") {
+            document.getElementById("heladeraId").value = ""
+        } else {
+            document.getElementById("heladeraId").value = event.value
+        }
+
+        document.querySelectorAll(`[data-id]`).forEach((element) => {
+            if(element.getAttribute("data-id") === event.value){
+                element.style.display = "block"
+            }
+        })
+        document.querySelectorAll(`[data-id]`).forEach((element) => {
+            if(element.getAttribute("data-id") !== event.value){
+                element.style.display = "none"
+            }
+        })
+
+    }
+
+    function agregarViandaFunction() {
+        document.getElementById('bloqueVianda2').style.display = 'block';
+        document.getElementById('agregarVianda').style.display = 'none';
+        document.getElementById('eliminarVianda').style.display = 'block'
+
+    }
+
+    function eliminarViandaFunction() {
+        document.getElementById('bloqueVianda2').style.display = 'none';
+        document.getElementById('agregarVianda').style.display = 'block';
+        document.getElementById('eliminarVianda').style.display = 'none';
+    }
+
+    function resetearVianda2() {
+        document.getElementById("vianda2").value = "";
+        document.getElementById("fechaCaducidad2").value = "";
+        document.getElementById("pesoVianda2").value = "";
+        document.getElementById("caloriasVianda2").value = "";
+        document.getElementById("fechaDonacion2").value = "";
+    }
+</script>
+</body>
+
+</html>
+

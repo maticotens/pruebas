@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <!-- Incluye Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        .btn-tecnico{
+            background-color: #002B80;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight:600;
+            margin-right: 20px;
+        }
+        .btn-tecnico:hover {
+            background-color: #00215c;
+            text-decoration: none;
+        }
+
+        #contenedor-inicio-tecnico {
+            margin-bottom: 100px !important;
+            margin-top: 100px !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        #bienvenido-m{
+            font-weight:700;
+            color:#1e5552;
+            font-size: 80px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="">
+        <a href="/inicio">
+            <img src="/static/logo.png" alt="Logo" style="max-height: 50px;" class="ml-5">
+        </a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href="#">Sobre nosotros</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href="/mapaHeladeras">Heladeras</a>
+                </li>
+                <!-- Menú desplegable -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{nombreUsuario}}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/perfil">Mi perfil</a>
+                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="d-flex justify-content-center align-items-center">
+    <div class="container m-5 d-flex justify-content-center align-items-center" id="contenedor-inicio-tecnico">
+        <div class="main-content mr-5">
+            <h1 class="mb-3" id="bienvenido-m">Bienvenido tecnico!</h1>
+            <h3 class="mb-3">Ya estás listo para registrar visitas.</h3>
+            <button class="btn-tecnico" onclick="window.location.href='/registrarVisita'">Registrar visitas</button>
+        </div>
+
+        <div class="image-placeholder ml-5">
+            <img src="/static/home.png" alt="Imagen" style="max-width: 100%; max-height: 100%; border-radius: 8px;">
+
+        </div>
+    </div>
+
+</main>
+
+{{> footer}}
+
+<!-- Incluye Bootstrap JS y sus dependencias -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
